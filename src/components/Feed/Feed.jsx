@@ -1,141 +1,45 @@
+import { useEffect, useState } from "react";
+import moment from "moment";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./Feed.module.scss";
-import { assets } from "@/assets";
+import { useAppContext } from "@/context/Context";
+import { API_KEY, valueConverter } from "@/data";
 
 const cx = classNames.bind(styles);
 
 const Feed = () => {
+  const { category } = useAppContext();
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    const videoList_url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=US&videoCategoryId=${category}&key=${API_KEY}`;
+    await fetch(videoList_url)
+      .then((response) => response.json())
+      .then((data) => setData(data.items));
+  };
+  useEffect(() => {
+    fetchData();
+  }, [category]);
   return (
     <div className={cx("feed")}>
-      <Link to={`video/20/4521`} className={cx("card")}>
-        <img src={assets.thumbnail1} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </Link>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail2} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail3} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail4} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail5} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail6} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail7} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail8} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail1} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail2} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail3} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail4} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail5} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail6} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail7} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
-      <div className={cx("card")}>
-        <img src={assets.thumbnail8} />
-        <h2>
-          Best channel to learn coding that help you to be a web developer
-        </h2>
-        <h3>Greatstack</h3>
-        <p>15k views &bull; 2 days ago </p>
-      </div>
+      {data.map((item, index) => {
+        return (
+          <Link
+            to={`video/${item.snippet.categoryId}/${item.id}`}
+            className={cx("card")}
+            key={index}
+          >
+            <img src={item.snippet.thumbnails.medium.url} />
+            <h2>{item.snippet.title}</h2>
+            <h3>{item.snippet.channelTitle}</h3>
+            <p>
+              {valueConverter(item.statistics.viewCount)} Views &bull;
+              {moment(item.snippet.publishedAt).fromNow()}{" "}
+            </p>
+          </Link>
+        );
+      })}
     </div>
   );
 };
