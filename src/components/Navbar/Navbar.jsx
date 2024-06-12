@@ -1,11 +1,11 @@
 import classNames from "classnames/bind";
 import styles from "./Navbar.module.scss";
 import { assets } from "@/assets";
-import { useSidebar } from "@/context/Context";
+import { useAppContext } from "@/context/Context";
 const cx = classNames.bind(styles);
 
 const Navbar = () => {
-  const { sidebar, setSidebar } = useSidebar();
+  const { sidebar, setSidebar } = useAppContext();
 
   return (
     <nav className={cx("flex-div")}>

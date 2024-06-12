@@ -2,10 +2,10 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./Pages/Home";
 import Video from "./Pages/Video";
-import { SidebarProvider } from "./context/Context";
+import { AppProvider } from "./context/Context";
 const App = () => {
   return (
-    <SidebarProvider>
+    <AppProvider>
       <div>
         <Navbar />
         <Routes>
@@ -13,7 +13,7 @@ const App = () => {
           <Route path="/video/:categoryId/:videoId" element={<Video />} />
         </Routes>
       </div>
-    </SidebarProvider>
+    </AppProvider>
   );
 };
 
