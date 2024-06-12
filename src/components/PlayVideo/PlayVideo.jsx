@@ -1,13 +1,21 @@
+import { PropTypes } from "prop-types";
 import classNames from "classnames/bind";
 import styles from "./PlayVideo.module.scss";
 import { assets } from "@/assets";
 
 const cx = classNames.bind(styles);
 
-const PlayVideo = () => {
+const PlayVideo = ({ videoId }) => {
   return (
     <div className={cx("play-video")}>
-      <video src={assets.video} controls autoPlay muted></video>
+      {/* <video src={assets.video} controls autoPlay muted></video> */}
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
       <h3>Best Youtube Channel To Learn Web Development </h3>
       <div className={cx("play-video-info")}>
         <p>1525 Views &bull; 2 days ago</p>
@@ -147,5 +155,7 @@ const PlayVideo = () => {
     </div>
   );
 };
-
+PlayVideo.propTypes = {
+  videoId: PropTypes.node.isRequired,
+};
 export default PlayVideo;
