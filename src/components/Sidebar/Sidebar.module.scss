@@ -40,6 +40,12 @@
     width: fit-content;
     flex-wrap: wrap;
     cursor: pointer;
+    &.active {
+      img {
+        padding-bottom: 2px;
+        border-bottom: 3px solid red;
+      }
+    }
   }
 }
 .small-sidebar {
