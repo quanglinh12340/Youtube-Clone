@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./Navbar.module.scss";
 import { assets } from "@/assets";
@@ -15,7 +16,9 @@ const Navbar = () => {
           src={assets.menu}
           onClick={() => (sidebar ? setSidebar(false) : setSidebar(true))}
         />
-        <img className={cx("logo")} src={assets.logo} />
+        <Link to="/">
+          <img className={cx("logo")} src={assets.logo} />
+        </Link>
       </div>
       <div className={cx("nav-middle", "flex-div")}>
         <div className={cx("search-box", "flex-div")}>
