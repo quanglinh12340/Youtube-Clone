@@ -1,20 +1,21 @@
 import { createContext, useContext, useState } from "react";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 
-const SidebarContext = createContext();
+const AppContext = createContext();
 
-export const useSidebar = () => useContext(SidebarContext);
+export const useAppContext = () => useContext(AppContext);
 
-export const SidebarProvider = ({ children }) => {
+export const AppProvider = ({ children }) => {
   const [sidebar, setSidebar] = useState(true);
+  const [category, setCategory] = useState(0);
 
   return (
-    <SidebarContext.Provider value={{ sidebar, setSidebar }}>
+    <AppContext.Provider value={{ sidebar, setSidebar, category, setCategory }}>
       {children}
-    </SidebarContext.Provider>
+    </AppContext.Provider>
   );
 };
 
-SidebarProvider.propTypes = {
+AppProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
