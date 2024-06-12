@@ -44,7 +44,7 @@ const Sidebar = () => {
           onClick={() => setCategory(24)}
         >
           <img src={assets.entertainment} />
-          <p>entertainment</p>
+          <p>Entertainment</p>
         </div>
         <div
           className={cx("side-link", `${category === 28 ? "active" : ""}`)}
